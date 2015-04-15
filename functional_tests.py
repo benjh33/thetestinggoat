@@ -7,7 +7,7 @@ class NewVisitorTestCase(unittest.TestCase):
 
     def setUp(self):
         self.browser = webdriver.Chrome()
-        self.browser.implicitly_wait(3)
+        self.browser.implicitly_wait(1)
 
     def tearDown(self):
         self.browser.quit()
@@ -28,7 +28,7 @@ class NewVisitorTestCase(unittest.TestCase):
             'Enter a to-do item')
 
         # she types 'buy peacock feathers' into a text box
-        input.send_keys('Buy peacock feathers')
+        inputbox.send_keys('Buy peacock feathers')
         # When she hits enter, the page updates and the page lists
         # 1. Buy peacock feathers as an item
         inputbox.send_keys(Keys.ENTER)
@@ -36,7 +36,8 @@ class NewVisitorTestCase(unittest.TestCase):
         table = self.browser.find_element_by_id('id_list_table')
         rows = table.find_elements_by_tag_name('tr')
         self.assertTrue(
-            any(row.text == '1: Buy peacock feathers' for row in rows))
+            any(row.text == '1: Buy peacock feathers' for row in rows),
+            "new to-do item didn't appear in table")
 
         # There is still a text box inviting her to add another item.
         # enters "Use peacock feathers to make a fly"
