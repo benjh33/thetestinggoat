@@ -60,9 +60,13 @@ class NewVisitorTestCase(LiveServerTestCase):
         self.assertNotIn('Buy peacock feathers', page_text)
         self.assertNotIn('Use peacock feathers to make a fly', page_text)
 
-        # Francis starts a new list 
+        # Francis
+         # starts a new list 
         inputbox = self.browser.find_element_by_id('id_new_item')
         inputbox.send_keys('Buy milk')
+        inputbox.send_keys(Keys.ENTER)
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox.send_keys('Then drink it.')
         inputbox.send_keys(Keys.ENTER)
 
         # Francis gets a unique url
@@ -71,14 +75,14 @@ class NewVisitorTestCase(LiveServerTestCase):
         self.assertNotEqual(francis_list_url, edith_list_url)
 
         # still no trace of Edith's text
-        page_text = self.browser.get_element_by_tag_name('body').text
+        page_text = self.browser.find_element_by_tag_name('body').text
         self.assertNotIn('Buy peacock feathers', page_text)
         self.assertNotIn('make a fly', page_text)
         self.assertIn('Buy milk', page_text)
 
         # There is still a text box inviting her to add another item.
         # enters "Use peacock feathers to make a fly"
-        self.fail('finish the test!')
+        # self.fail('finish the test!')
 
         # The page updates again, and now shows both items on her list
 
