@@ -5,7 +5,6 @@ urlpatterns = patterns('',
     url(r"^(\d+)/$", "lists.views.view_list", name="view_list"),
     ## we are saying no trailing slash means we're manipulating db
     ## so we're adding an item to existing list
-    url(r"^(\d+)/add_item$", "lists.views.add_item", name="add_item"),
     ## and adding a new list
     url(r"^new$", "lists.views.new_list", name="new_list"),
 )
