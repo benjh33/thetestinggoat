@@ -20,10 +20,10 @@ class NewVisitorTest(FunctionalTest):
         self.assertIn('To-Do', header_text)
 
         # she is invited to enter a to do item
-        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox = self.get_item_input_box()
         self.assertEqual(
             inputbox.get_attribute('placeholder'),
-            'Enter a to-do item')
+            'Enter a to-do item.')
 
         # she types 'buy peacock feathers' into a text box
         inputbox.send_keys('Buy peacock feathers')
@@ -32,7 +32,7 @@ class NewVisitorTest(FunctionalTest):
         inputbox.send_keys(Keys.ENTER)
         self.check_for_row_in_list_table('1: Buy peacock feathers')
         # add another thing
-        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox = self.get_item_input_box()
         inputbox.send_keys('Use peacock feathers to make a fly')
         inputbox.send_keys(Keys.ENTER)
         edith_list_url = self.browser.current_url
@@ -54,10 +54,10 @@ class NewVisitorTest(FunctionalTest):
 
         # Francis
          # starts a new list 
-        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox = self.get_item_input_box()
         inputbox.send_keys('Buy milk')
         inputbox.send_keys(Keys.ENTER)
-        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox = self.get_item_input_box()
         inputbox.send_keys('Then drink it.')
         inputbox.send_keys(Keys.ENTER)
 
