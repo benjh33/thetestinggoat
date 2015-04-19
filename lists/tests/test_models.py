@@ -54,6 +54,9 @@ class ItemModelsTest(TestCase):
         item = Item.objects.create(list = list_, text = 'the text')
         self.assertEqual(str(item), 'the text')
         
+    def test_list_has_valid_str_method(self):
+        list_ = List.objects.create()
+        return True
 
 class ListModelTest(TestCase):
 
