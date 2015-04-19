@@ -7,6 +7,7 @@ import unittest
 import time
 
 from .base import FunctionalTest
+from lists.forms import EMPTY_ITEM_ERROR, DUPLICATE_ITEM_ERROR
 
 class ItemValidationTest(FunctionalTest):
 
@@ -18,7 +19,7 @@ class ItemValidationTest(FunctionalTest):
 
         # this should cause a problem
         error = self.browser.find_element_by_css_selector('.has-error')
-        self.assertEqual(error.text, "You can't have an empty list item.")
+        self.assertEqual(error.text, EMPTY_ITEM_ERROR)
 
         # she tries again with actual text
         self.get_item_input_box().send_keys('Buy milk\n')
@@ -27,7 +28,7 @@ class ItemValidationTest(FunctionalTest):
         # she tries again to enter an empty line and still there is an error
         self.get_item_input_box().send_keys('\n')
         error = self.browser.find_element_by_css_selector('.has-error')
-        self.assertEqual(error.text, "You can't have an empty list item.")
+        self.assertEqual(error.text, EMPTY_ITEM_ERROR)
 
         # she can correct it by filling in some text
         self.get_item_input_box().send_keys('Make tea\n')
@@ -46,5 +47,5 @@ class ItemValidationTest(FunctionalTest):
         # she sees a helpful error message
         self.check_for_row_in_list_table('1: Buy wellies')
         error = self.browser.find_element_by_css_selector('.has-error')
-        self.assertEqual(error, "You've already got this in your list.")
+        self.assertEqual(error.text, DUPLICATE_ITEM_ERROR)
 

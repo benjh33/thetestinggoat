@@ -7,14 +7,10 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('lists', '0004_item_list'),
+        ('lists', '0002_auto_20150419_2014'),
     ]
 
     operations = [
-        migrations.AlterModelOptions(
-            name='item',
-            options={'ordering': ('id',)},
-        ),
         migrations.AlterUniqueTogether(
             name='item',
             unique_together=set([('list', 'text')]),

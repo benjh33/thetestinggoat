@@ -23,7 +23,7 @@ class NewVisitorTest(FunctionalTest):
         inputbox = self.get_item_input_box()
         self.assertEqual(
             inputbox.get_attribute('placeholder'),
-            'Enter a to-do item.')
+            'Enter a to-do item')
 
         # she types 'buy peacock feathers' into a text box
         inputbox.send_keys('Buy peacock feathers')
