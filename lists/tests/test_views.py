@@ -40,11 +40,6 @@ class ListViewTest(TestCase):
         return self.client.post("/lists/%d/" % (list_.id,), 
                 {'text':''})
 
-    def test_uses_list_templates(self):
-        list_ = List.objects.create()
-        response = self.post_invalid_input()
-        self.assertTemplateUsed(response, 'list.html')
-
     def test_displays_items_only_for_that_list(self):
         list_1 = List.objects.create()
         Item.objects.create(text = "itemy 1", list = list_1)
@@ -106,13 +101,6 @@ class NewListTest(TestCase):
         list_ = List.objects.first()
         self.assertRegex(response['location'], r'/lists/\d+/')
 
-    def test_validation_errors_are_sent_back_to_homepage_template(self):
-        response = self.client.post('/lists/new', data={'text':''})
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'home.html')
-        expected_error = escape(EMPTY_ITEM_ERROR)
-        self.assertContains(response, expected_error)
-    
     def test_validation_errors_end_up_on_lists_page(self):
         list_ = List.objects.create()
         response = self.client.post('/lists/%d/' % (list_.id, ),
