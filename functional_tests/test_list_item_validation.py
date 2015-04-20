@@ -18,7 +18,8 @@ class ItemValidationTest(FunctionalTest):
         self.get_item_input_box().send_keys('\n')
 
         # this should cause a problem
-        error = self.browser.find_element_by_css_selector('.has-error')
+        error = self.get_error_element()
+        self.assertTrue(error.is_displayed())
         self.assertEqual(error.text, EMPTY_ITEM_ERROR)
 
         # she tries again with actual text
@@ -27,8 +28,8 @@ class ItemValidationTest(FunctionalTest):
 
         # she tries again to enter an empty line and still there is an error
         self.get_item_input_box().send_keys('\n')
-        error = self.browser.find_element_by_css_selector('.has-error')
-        self.assertEqual(error.text, EMPTY_ITEM_ERROR)
+        error = self.get_error_element()
+        self.assertTrue(error.is_displayed())
 
         # she can correct it by filling in some text
         self.get_item_input_box().send_keys('Make tea\n')
@@ -46,7 +47,8 @@ class ItemValidationTest(FunctionalTest):
 
         # she sees a helpful error message
         self.check_for_row_in_list_table('1: Buy wellies')
-        error = self.browser.find_element_by_css_selector('.has-error')
+        error = self.get_error_element()
+        self.assertFalse(error.is_displayed())
         self.assertEqual(error.text, DUPLICATE_ITEM_ERROR)
 
     def test_error_messages_are_cleared_on_input(self):
