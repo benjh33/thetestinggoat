@@ -36,9 +36,10 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    'social.apps.django_app.default',
     # apps
     'lists',
+#    'accounts',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -50,6 +51,20 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
+
+#AUTH_USER_MODEL = "accounts.ListUser"
+
+AUTHENTICATION_BACKENDS = (
+#    'accounts.authentication.PersonaAuthenticationBackend',
+#    'social.backends.google.GoogleOAuth2',
+#    'django.contrib.auth.backends.ModelBackend',
+     )
+
+
+#TEMPLATE_CONTEXT_PROCESSORS = (
+#    'social.apps.django_app.context_processors.backends',
+#    'social.apps.django_app.context_processors.login_redirect',
+#    )
 
 ROOT_URLCONF = 'superlists.urls'
 
@@ -87,3 +102,24 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, '../static/')
+STATICFILES_DIRS = (
+        os.path.join(BASE_DIR, 'superlists', 'static'),
+        )
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django':{
+            'handlers': ['console'],
+         },
+    },
+    'root': {'level': 'INFO'},
+}
+
