@@ -25,12 +25,11 @@ class ItemModelsTest(TestCase):
             item.save()
             item.full_clean()
 
-    @skip
     def test_duplicate_items_are_invalid(self):
         list_ = List.objects.create()
         Item.objects.create(list = list_, text = 'bla')
         with self.assertRaises(ValidationError):
-            item = Item.objects.create(list = list_, text= 'bla')
+            item = Item(list = list_, text= 'bla')
             item.full_clean()
 
     def test_CAN_create_duplicate_items_to_different_lists(self):

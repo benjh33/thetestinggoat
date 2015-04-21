@@ -36,7 +36,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    'social.apps.django_app.default',
     # apps
     'lists',
     'accounts',
@@ -53,11 +53,18 @@ MIDDLEWARE_CLASSES = (
 )
 
 AUTH_USER_MODEL = "accounts.ListUser"
-AUTHENTICATION_BACKEND = (
-    "accounts.authentication.PersonaAuthenticationBackend",
-    )
+
+AUTHENTICATION_BACKENDS = (
+    'accounts.authentication.PersonaAuthenticationBackend',
+#    'social.backends.google.GoogleOAuth2',
+#    'django.contrib.auth.backends.ModelBackend',
+     )
 
 
+#TEMPLATE_CONTEXT_PROCESSORS = (
+#    'social.apps.django_app.context_processors.backends',
+#    'social.apps.django_app.context_processors.login_redirect',
+#    )
 
 ROOT_URLCONF = 'superlists.urls'
 
