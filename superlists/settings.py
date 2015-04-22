@@ -39,7 +39,7 @@ INSTALLED_APPS = (
     'social.apps.django_app.default',
     # apps
     'lists',
-#    'accounts',
+    'accounts',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -52,10 +52,10 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-#AUTH_USER_MODEL = "accounts.ListUser"
+AUTH_USER_MODEL = "accounts.User"
 
 AUTHENTICATION_BACKENDS = (
-#    'accounts.authentication.PersonaAuthenticationBackend',
+    'accounts.authentication.PersonaAuthenticationBackend',
 #    'social.backends.google.GoogleOAuth2',
 #    'django.contrib.auth.backends.ModelBackend',
      )

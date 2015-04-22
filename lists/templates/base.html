@@ -11,7 +11,12 @@
 <div class="container">
   <nav class='navbar navbar-default' role='navigation'>
       <a href="/" class="navbar-brand">Superlists</a>
+      {% if user.email %}
+        <a class='btn navbar-btn navbar-right' id='id_logout' href='{% url "logout" %}'>logout</a>
+        <span class='navbar-text navbar-right'>Logged in as {{ user.email }}</span>
+      {% else %}
       <a class='button navbar-button navbar-right' id='id_login' href="#">Sign in</a>
+      {% endif %}
   </nav>
   <div class='row'>
     <div class='col-md-6 col-md-offset-3 jumbotron'>
@@ -40,32 +45,39 @@
 <script src="/static/bootstrap/js/bootstrap.min.js"></script>
 <script src="/static/list.js"></script>
 <script src="https://login.persona.org/include.js"></script>
+<script src="/static/accounts.js"></script>
 <script>
+/*global $, Superlists, navigator */
 $(document).ready(function() {
-    var loginLink = document.getElementById('login');
-    if(loginLink) {
-        loginLink.onclick = function() { navigator.id.request(); };
-    }
-    var logoutLink = document.getElementById('logout');
-    if(logoutLink) {
-        logoutLink.onclick = function() { navigator.id.logout();};
-    }
+
+    var urls = {login: "{% url 'persona_login' %}",
+                logout: "TODO"
+    };
     var currentUser = "{{ user.email }}" || null;
     var csrf_token = "{{ csrf_token }}";
-    console.log(currentUser);
-
-    navigator.id.watch({
-        loggedInUser: currentUser,
-        onlogin: function(assertion) {
-            $.post('/accounts/login', {assertion: assertion, csrfmiddlewaretoken: csrf_token })
-                .done(function() { window.location.reload(); })
-                .fail(function() { navigator.id.logout(); });
-        },
-        onlogout: function(){
-            $.post('/accounts/logout')
-                .always(function() { window.location.reload();  }) 
-        }
-    });
+    Superlists.Accounts.initialize(navigator, currentUser, csrf_token, urls);
+//     var loginLink = document.getElementById('login');
+//     if(loginLink) {
+//         loginLink.onclick = function() { navigator.id.request(); };
+//     }
+//     var logoutLink = document.getElementById('logout');
+//     if(logoutLink) {
+//         logoutLink.onclick = function() { navigator.id.logout();};
+//     }
+//     console.log(currentUser);
+// 
+//     navigator.id.watch({
+//         loggedInUser: currentUser,
+//         onlogin: function(assertion) {
+//             $.post(urls.login, {assertion: assertion, csrfmiddlewaretoken: csrf_token })
+//                 .done(function() { window.location.reload(); })
+//                 .fail(function() { navigator.id.logout(); });
+//         },
+//         onlogout: function(){
+//             $.post(urls.logout)
+//                 .always(function() { window.location.reload();  }) 
+//         }
+//     });
 });
 </script>
 </body>

@@ -48,7 +48,6 @@ class ItemValidationTest(FunctionalTest):
         # she sees a helpful error message
         self.check_for_row_in_list_table('1: Buy wellies')
         error = self.get_error_element()
-        self.assertFalse(error.is_displayed())
         self.assertEqual(error.text, DUPLICATE_ITEM_ERROR)
 
     def test_error_messages_are_cleared_on_input(self):
