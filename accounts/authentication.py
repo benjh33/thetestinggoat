@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+import logging
 import requests
 
 PERSONA_VERIFY_URL = 'https://verifier.login.persona.org/verify'
@@ -9,8 +10,11 @@ User = get_user_model()
 class PersonaAuthenticationBackend(object):
 
     def authenticate(self, assertion):
+        logging.warning('entering authenticate function')
         response = requests.post(PERSONA_VERIFY_URL, 
                 data={'assertion': assertion, 'audience': DOMAIN})
+        logging.warning('got response from persona')
+        logging.warning(response.content.decode())
         if response.ok and response.json()['status'] == 'okay':
             email = response.json()['email']
             try:
