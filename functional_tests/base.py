@@ -18,6 +18,10 @@ User = get_user_model()
 class FunctionalTest(StaticLiveServerTestCase):
 
     def create_pre_authenticated_session(self, email):
+        """
+        Testing login is done elsewhere. Tests that need to login can
+        use this to do so without waiting for the Mozilla Persona dance.
+        """
         user = User.objects.create(email = email)
         session = SessionStore()
         session[SESSION_KEY] = user.pk
@@ -33,6 +37,10 @@ class FunctionalTest(StaticLiveServerTestCase):
         ))
 
     def get_new_persona_test_user(self):
+        """
+        Attaches a qualified, random persona test user email and 
+        password to the instance
+        """
         resp = requests.get('http://personatestuser.org/email')
         data = resp.json()
         self.email = data['email']
@@ -42,6 +50,7 @@ class FunctionalTest(StaticLiveServerTestCase):
     def setUpClass(cls):
         for arg in sys.argv:
             if 'liveserver' in arg:
+                cls.server_user = 'ubuntu'
                 cls.server_host = arg.split('=')[1]
                 cls.server_url = "http://" + arg.split("=")[1]
                 cls.against_staging = True
@@ -57,7 +66,7 @@ class FunctionalTest(StaticLiveServerTestCase):
 
     def setUp(self):
         if self.against_staging:
-            reset_database(self.server_host)
+            reset_database(self.server_host, self.server_user)
         self.browser = webdriver.Firefox()
         self.browser.implicitly_wait(1)
 

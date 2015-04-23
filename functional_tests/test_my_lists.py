@@ -11,7 +11,9 @@ class MyListsTest(FunctionalTest):
 
     def create_pre_authenticated_session(self, email):
         if self.against_staging:
-            session_key = create_session_on_server(self.server_host, email)
+            print(email)
+            session_key = create_session_on_server(self.server_host, 
+                    email, self.server_user)
         else:
             session_key = create_pre_authenticated_session(email)
 
