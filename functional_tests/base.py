@@ -17,24 +17,24 @@ User = get_user_model()
 
 class FunctionalTest(StaticLiveServerTestCase):
 
-    def create_pre_authenticated_session(self, email):
-        """
-        Testing login is done elsewhere. Tests that need to login can
-        use this to do so without waiting for the Mozilla Persona dance.
-        """
-        user = User.objects.create(email = email)
-        session = SessionStore()
-        session[SESSION_KEY] = user.pk
-        session[BACKEND_SESSION_KEY] = settings.AUTHENTICATION_BACKENDS[0]
-        session.save()
-        ## to get a cookie we need to visit the domain
-        ## 404 pages load quick
-        self.browser.get(self.server_url + "/404_no_such_page/")
-        self.browser.add_cookie(dict(
-            name=settings.SESSION_COOKIE_NAME,
-            value=session.session_key,
-            path="/"
-        ))
+#   def create_pre_authenticated_session(self, email):
+#       """
+#       Testing login is done elsewhere. Tests that need to login can
+#       use this to do so without waiting for the Mozilla Persona dance.
+#       """
+#       user = User.objects.create(email = email)
+#       session = SessionStore()
+#       session[SESSION_KEY] = user.pk
+#       session[BACKEND_SESSION_KEY] = settings.AUTHENTICATION_BACKENDS[0]
+#       session.save()
+#       ## to get a cookie we need to visit the domain
+#       ## 404 pages load quick
+#       self.browser.get(self.server_url + "/404_no_such_page/")
+#       self.browser.add_cookie(dict(
+#           name=settings.SESSION_COOKIE_NAME,
+#           value=session.session_key,
+#           path="/"
+#       ))
 
     def get_new_persona_test_user(self):
         """
@@ -50,9 +50,8 @@ class FunctionalTest(StaticLiveServerTestCase):
     def setUpClass(cls):
         for arg in sys.argv:
             if 'liveserver' in arg:
-                cls.server_user = 'ubuntu'
                 cls.server_host = arg.split('=')[1]
-                cls.server_url = "http://" + arg.split("=")[1]
+                cls.server_url = "http://" + arg.split("=")[1].split('@')[1]
                 cls.against_staging = True
                 return
         super().setUpClass()
@@ -66,9 +65,10 @@ class FunctionalTest(StaticLiveServerTestCase):
 
     def setUp(self):
         if self.against_staging:
-            reset_database(self.server_host, self.server_user)
+            reset_database(self.server_host)
+        self.get_new_persona_test_user()
         self.browser = webdriver.Firefox()
-        self.browser.implicitly_wait(1)
+        self.browser.implicitly_wait(3)
 
     def tearDown(self):
         self.browser.quit()

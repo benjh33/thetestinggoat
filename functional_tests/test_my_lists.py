@@ -11,9 +11,8 @@ class MyListsTest(FunctionalTest):
 
     def create_pre_authenticated_session(self, email):
         if self.against_staging:
-            print(email)
             session_key = create_session_on_server(self.server_host, 
-                    email, self.server_user)
+                    email)
         else:
             session_key = create_pre_authenticated_session(email)
 
@@ -28,7 +27,6 @@ class MyListsTest(FunctionalTest):
 
     def test_logged_in_users_lists_are_saved_as_my_lists(self):
         
-        self.get_new_persona_test_user()
         self.browser.get(self.server_url)
         self.wait_to_be_logged_out(self.email)
 
