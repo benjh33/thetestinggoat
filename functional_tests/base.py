@@ -1,14 +1,17 @@
+import sys
+import requests
+
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.conf import settings
 from django.contrib.auth import (BACKEND_SESSION_KEY, 
         SESSION_KEY, get_user_model)
 from django.contrib.sessions.backends.db import SessionStore
+
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import NoSuchElementException 
 
-import sys
-import requests
+from .server_tools import reset_database
 
 User = get_user_model()
 
@@ -39,9 +42,12 @@ class FunctionalTest(StaticLiveServerTestCase):
     def setUpClass(cls):
         for arg in sys.argv:
             if 'liveserver' in arg:
+                cls.server_host = arg.split('=')[1]
                 cls.server_url = "http://" + arg.split("=")[1]
+                cls.against_staging = True
                 return
         super().setUpClass()
+        cls.against_staging = False
         cls.server_url = cls.live_server_url
 
     @classmethod
@@ -50,6 +56,8 @@ class FunctionalTest(StaticLiveServerTestCase):
             super().tearDownClass()
 
     def setUp(self):
+        if self.against_staging:
+            reset_database(self.server_host)
         self.browser = webdriver.Firefox()
         self.browser.implicitly_wait(1)
 
