@@ -20,8 +20,8 @@
     <script>
 /*global $, test, equal */
 
-test("Errors should be hidden on focus", function() {
-    $('input').trigger('focus');
+test("Errors should be hidden on keypress", function() {
+    $('input').trigger('keypress');
     equal($('.has-error').is(':visible'), false);
 });
 
