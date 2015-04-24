@@ -1,6 +1,7 @@
 import os
 import sys
 import requests
+import time
 
 from datetime import datetime
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
@@ -11,35 +12,19 @@ from django.contrib.sessions.backends.db import SessionStore
 
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.common.exceptions import NoSuchElementException 
+from selenium.common.exceptions import (NoSuchElementException, 
+        WebDriverException)
 
 from .server_tools import reset_database
 
 SCREEN_DUMP_LOCATION = os.path.join(
         os.path.dirname(os.path.abspath(__file__)), 'screendumps')
 
+DEFAULT_WAIT = 5
+
 User = get_user_model()
 
 class FunctionalTest(StaticLiveServerTestCase):
-
-#   def create_pre_authenticated_session(self, email):
-#       """
-#       Testing login is done elsewhere. Tests that need to login can
-#       use this to do so without waiting for the Mozilla Persona dance.
-#       """
-#       user = User.objects.create(email = email)
-#       session = SessionStore()
-#       session[SESSION_KEY] = user.pk
-#       session[BACKEND_SESSION_KEY] = settings.AUTHENTICATION_BACKENDS[0]
-#       session.save()
-#       ## to get a cookie we need to visit the domain
-#       ## 404 pages load quick
-#       self.browser.get(self.server_url + "/404_no_such_page/")
-#       self.browser.add_cookie(dict(
-#           name=settings.SESSION_COOKIE_NAME,
-#           value=session.session_key,
-#           path="/"
-#       ))
 
     def get_new_persona_test_user(self):
         """
@@ -73,7 +58,7 @@ class FunctionalTest(StaticLiveServerTestCase):
             reset_database(self.server_host)
         self.get_new_persona_test_user()
         self.browser = webdriver.Firefox()
-        self.browser.implicitly_wait(3)
+        self.browser.implicitly_wait(DEFAULT_WAIT)
 
     def tearDown(self):
         if self._test_has_failed():
@@ -152,4 +137,11 @@ class FunctionalTest(StaticLiveServerTestCase):
                     )
                 )
 
-
+    def wait_for(self, function_with_assertion, timeout=DEFAULT_WAIT):
+        start_time = time.time()
+        while time.time() - start_time < timeout:
+            try:
+                return function_with_assertion()
+            except (AssertionError, WebDriverException):
+                time.sleep(0.1)
+        return function_with_assertion()
