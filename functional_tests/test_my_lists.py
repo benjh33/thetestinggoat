@@ -55,11 +55,9 @@ class MyListsTest(FunctionalTest):
         # she logs out "my list option disappears
         self.browser.find_element_by_id('id_logout').click()
         self.assertEqual(
-                self.browser.find_element_by_link_text('My lists'),
+                self.browser.find_elements_by_link_text('My lists'),
                 [])
 
-        self.browser.get(self.server_url)
-        self.wait_to_be_logged_in(self.email)
 
 
 
