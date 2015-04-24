@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+  <title>To-Do lists</title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <!-- Bootstrap -->
+  <link media="screen" rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css" />
+  <link media="screen" rel="stylesheet" href="/static/base.css" />
+</head>
+<body>
+<div class="container">
+  <nav role="navigation" class="navbar navbar-default">
+      <a class="navbar-brand" href="/">Superlists</a>
+      
+      <ul class="nav navbar-nav">
+          <li><a href="/lists/users/jonathan206631%40personatestuser.org/">My lists</a>
+      </li></ul>
+        <a href="/accounts/logout" id="id_logout" class="btn navbar-btn navbar-right">logout</a>
+        <span class="navbar-text navbar-right">Logged in as jonathan206631@personatestuser.org</span>
+      
+  </nav>
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3 jumbotron">
+      <div class="text-center">
+        <h1>Your To-Do lists</h1>
+        
+        <form action="/lists/1/" method="POST">
+          <input type="text" placeholder="Enter a to-do item" name="text" id="id_text" class="form-control input-lg" />
+          <input type="hidden" value="sFqrhblwZ3aJu417YpR0KZtOgqvj6tD8" name="csrfmiddlewaretoken" />
+          
+        </form>
+        
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+      
+<table class="table" id="id_list_table">
+  
+  <tbody><tr><td>1: Reticulate splines</td></tr>
+  
+  <tr><td>2: Imanentize eschaton</td></tr>
+  
+</tbody></table>
+
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+      
+      
+    </div>
+  </div>
+
+</div>
+<script src="http://code.jquery.com/jquery.js"></script>
+<script src="/static/bootstrap/js/bootstrap.min.js"></script>
+<script src="/static/list.js"></script>
+<script src="https://login.persona.org/include.js"></script>
+<script src="/static/accounts.js"></script>
+<script>
+/*global $, Superlists, navigator */
+$(document).ready(function() {
+
+    var urls = {login: "/accounts/login",
+                logout: "TODO"
+    };
+    var currentUser = "jonathan206631@personatestuser.org" || null;
+    var csrf_token = "sFqrhblwZ3aJu417YpR0KZtOgqvj6tD8";
+    Superlists.Accounts.initialize(navigator, currentUser, csrf_token, urls);
+//     var loginLink = document.getElementById('login');
+//     if(loginLink) {
+//         loginLink.onclick = function() { navigator.id.request(); };
+//     }
+//     var logoutLink = document.getElementById('logout');
+//     if(logoutLink) {
+//         logoutLink.onclick = function() { navigator.id.logout();};
+//     }
+//     console.log(currentUser);
+// 
+//     navigator.id.watch({
+//         loggedInUser: currentUser,
+//         onlogin: function(assertion) {
+//             $.post(urls.login, {assertion: assertion, csrfmiddlewaretoken: csrf_token })
+//                 .done(function() { window.location.reload(); })
+//                 .fail(function() { navigator.id.logout(); });
+//         },
+//         onlogout: function(){
+//             $.post(urls.logout)
+//                 .always(function() { window.location.reload();  }) 
+//         }
+//     });
+});
+</script>
+
+
+
+<iframe style="display: none;" src="https://login.persona.org/communication_iframe"></iframe></body><canvas id="fxdriver-screenshot-canvas" style="display: none;" width="1440" height="711"></canvas></html>
