@@ -8,7 +8,6 @@ from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.conf import settings
 from django.contrib.auth import (BACKEND_SESSION_KEY, 
         SESSION_KEY, get_user_model)
-from django.contrib.sessions.backends.db import SessionStore
 
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
@@ -40,6 +39,9 @@ class FunctionalTest(StaticLiveServerTestCase):
     @classmethod
     def setUpClass(cls):
         cls.email = None
+        cls.load_tries = 0
+        cls.get_new_persona_test_user(cls)
+        #self.wait_for(lambda: self.assertIsNotNone(self.email))
         for arg in sys.argv:
             if 'liveserver' in arg:
                 cls.server_host = arg.split('=')[1]
@@ -58,9 +60,6 @@ class FunctionalTest(StaticLiveServerTestCase):
     def setUp(self):
         if self.against_staging:
             reset_database(self.server_host)
-        self.get_new_persona_test_user()
-        print(self.email)
-        self.wait_for(lambda: self.assertIsNotNone(self.email))
         self.browser = webdriver.Firefox()
         self.browser.implicitly_wait(DEFAULT_WAIT)
 
@@ -151,17 +150,31 @@ class FunctionalTest(StaticLiveServerTestCase):
         return function_with_assertion()
     
     def create_pre_authenticated_session(self):
+        session_key = None
         if self.against_staging:
             session_key = create_session_on_server(self.server_host, 
                     self.email)
             print(session_key)
         else:
             session_key = create_pre_authenticated_session(self.email)
+        self.wait_for(lambda: self.assertIsNotNone(session_key))
         # to set a cookie, we need to visit the domain
         # 404 loads fastest
-        self.browser.get(self.server_url + "/404_no_such_page/")
+        self.load_slow_browser("/404_no_such_page/")
         self.browser.add_cookie(dict(
             name=settings.SESSION_COOKIE_NAME,
             value=session_key,
             path="/"))
 
+    def load_slow_browser(self, path=''):
+        try:
+            self.load_tries += 1
+            self.browser.get(self.server_url + path)
+            WebDriverWait(self.browser, 1).until(
+                lambda x: self.browser.current_url != 'about:blank')
+        finally:
+            if self.load_tries < 5 and self.browser.current_url=='about:blank':
+                self.load_slow_browser(path)
+            elif self.browser.current_url == 'about:blank':
+                self.fail("could not load page")
+            self.load_tries = 0 

@@ -1,11 +1,5 @@
-from django.conf import settings
-from django.contrib.auth import get_user_model
-
 from .base import FunctionalTest
-from .server_tools import create_session_on_server
-from .management.commands.create_session import create_pre_authenticated_session
 
-User = get_user_model()
 
 class MyListsTest(FunctionalTest):
 
@@ -14,7 +8,7 @@ class MyListsTest(FunctionalTest):
         # Edith is a logged in user
         self.create_pre_authenticated_session()
 
-        self.browser.get(self.server_url)
+        self.load_slow_browser()
         self.get_item_input_box().send_keys("Reticulate splines\n")
         self.get_item_input_box().send_keys("Imanentize eschaton\n")
         first_list_url = self.browser.current_url
@@ -29,7 +23,7 @@ class MyListsTest(FunctionalTest):
                 )
 
         # she decides to start another list, just to see
-        self.browser.get(self.server_url)
+        self.load_slow_browser()
         self.get_item_input_box().send_keys('Click cows\n')
         second_list_url = self.browser.current_url
 

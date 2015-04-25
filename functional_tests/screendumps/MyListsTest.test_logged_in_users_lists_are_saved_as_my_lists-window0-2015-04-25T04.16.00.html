@@ -17,11 +17,11 @@
   <div class="row">
     <div class="col-md-6 col-md-offset-3 jumbotron">
       <div class="text-center">
-        <h1>Start a new To-Do list</h1>
+        <h1>Your To-Do lists</h1>
         
-        <form action="/lists/new" method="POST">
+        <form action="/lists/13/" method="POST">
           <input type="text" placeholder="Enter a to-do item" name="text" id="id_text" class="form-control input-lg" />
-          <input type="hidden" value="GNXFAp3Sug1q83Tf2rX2k9ac4JeWucTS" name="csrfmiddlewaretoken" />
+          <input type="hidden" value="Lcxz6xRDKo4hhGC15Jfra51OD0zBl80a" name="csrfmiddlewaretoken" />
           
         </form>
         
@@ -31,7 +31,14 @@
   <div class="row">
     <div class="col-md-6 col-md-offset-3">
       
-      
+<table class="table" id="id_list_table">
+  
+  <tbody><tr><td>1: Reticulate splines</td></tr>
+  
+  <tr><td>2: Imanentize eschaton</td></tr>
+  
+</tbody></table>
+
     </div>
   </div>
   <div class="row">
@@ -55,7 +62,7 @@ $(document).ready(function() {
                 logout: "TODO"
     };
     var currentUser = "" || null;
-    var csrf_token = "GNXFAp3Sug1q83Tf2rX2k9ac4JeWucTS";
+    var csrf_token = "Lcxz6xRDKo4hhGC15Jfra51OD0zBl80a";
     Superlists.Accounts.initialize(navigator, currentUser, csrf_token, urls);
 //     var loginLink = document.getElementById('login');
 //     if(loginLink) {
@@ -84,4 +91,4 @@ $(document).ready(function() {
 
 
 
-<iframe style="display: none;" src="https://login.persona.org/communication_iframe"></iframe></body><canvas id="fxdriver-screenshot-canvas" style="display: none;" width="1440" height="690"></canvas></html>
+<iframe style="display: none;" src="https://login.persona.org/communication_iframe"></iframe></body><canvas id="fxdriver-screenshot-canvas" style="display: none;" width="1427" height="436"></canvas></html>
