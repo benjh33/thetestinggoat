@@ -9,7 +9,7 @@ class LoginTest(FunctionalTest):
 
     def test_login_with_persona(self):
 
-        self.get_new_persona_test_user()
+        #self.get_new_persona_test_user()
         print('testing login with fake user from "personatesuser.org/email"')
         print(self.email, self.password)
 
