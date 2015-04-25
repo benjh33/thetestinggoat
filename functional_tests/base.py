@@ -134,7 +134,7 @@ class FunctionalTest(StaticLiveServerTestCase):
         self.fail('could not find window %s' % text_in_title)
     
     def wait_for_element_with_css(self, selector):
-        return WebDriverWait(self.browser, timeout=10).until(
+        return WebDriverWait(self.browser, timeout=30).until(
                 lambda b: b.find_element_by_css_selector(selector),
                 '''Could not find element with css selector {}. 
                 Page text was:\n{}'''.format(
