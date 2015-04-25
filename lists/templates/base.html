@@ -67,6 +67,8 @@ $(document).ready(function() {
     };
     var currentUser = "{{ user.email }}" || null;
     var csrf_token = "{{ csrf_token }}";
+    console.log('{{ user.email }}')
+
     Superlists.Accounts.initialize(navigator, currentUser, csrf_token, urls);
 //     var loginLink = document.getElementById('login');
 //     if(loginLink) {
