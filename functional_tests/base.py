@@ -39,6 +39,7 @@ class FunctionalTest(StaticLiveServerTestCase):
 
     @classmethod
     def setUpClass(cls):
+        cls.email = None
         for arg in sys.argv:
             if 'liveserver' in arg:
                 cls.server_host = arg.split('=')[1]
@@ -58,6 +59,8 @@ class FunctionalTest(StaticLiveServerTestCase):
         if self.against_staging:
             reset_database(self.server_host)
         self.get_new_persona_test_user()
+        print(self.email)
+        self.wait_for(lambda: self.assertIsNotNone(self.email))
         self.browser = webdriver.Firefox()
         self.browser.implicitly_wait(DEFAULT_WAIT)
 
@@ -151,6 +154,7 @@ class FunctionalTest(StaticLiveServerTestCase):
         if self.against_staging:
             session_key = create_session_on_server(self.server_host, 
                     self.email)
+            print(session_key)
         else:
             session_key = create_pre_authenticated_session(self.email)
         # to set a cookie, we need to visit the domain

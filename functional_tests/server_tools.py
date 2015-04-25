@@ -10,12 +10,15 @@ in functional_tools/fabfile.py that call the server's ./manage.py from
 the dev machine. 
 '''
 def create_session_on_server(host, email):
+    print(THIS_FOLDER)
     return subprocess.check_output(
             [
                 'fab',
                 'create_session_on_server:email={}'.format(email),
                 '--host={}'.format(host),
                 '--hide=everything,status',
+                '--user=ubuntu',
+                '-n 5'
                 ],
             cwd=THIS_FOLDER,
        ).decode().strip()
@@ -26,6 +29,8 @@ def reset_database(host):
                 'fab', 
                 'reset_database',
                 '--host={}'.format(host),
+                '--user=ubuntu',
+                '-n 5'
             ],
             cwd=THIS_FOLDER)
 
