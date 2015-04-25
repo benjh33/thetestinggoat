@@ -2,5 +2,9 @@ db.sqlite3
 __pycache__
 *.pyc
 *.swp
+*.swo
+*.swm
+*.swn
+functional_tests/screendumps/
 node_modules
 
