@@ -21,7 +21,6 @@ def create_session_on_server(host, email):
        ).decode().strip()
 
 def reset_database(host):
-    print(host)
     subprocess.check_call(
             [
                 'fab', 

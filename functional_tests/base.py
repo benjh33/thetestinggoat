@@ -15,7 +15,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import (NoSuchElementException, 
         WebDriverException)
 
-from .server_tools import reset_database
+from .server_tools import reset_database, create_session_on_server
+from .management.commands.create_session import create_pre_authenticated_session
 
 SCREEN_DUMP_LOCATION = os.path.join(
         os.path.dirname(os.path.abspath(__file__)), 'screendumps')
@@ -145,3 +146,18 @@ class FunctionalTest(StaticLiveServerTestCase):
             except (AssertionError, WebDriverException):
                 time.sleep(0.1)
         return function_with_assertion()
+    
+    def create_pre_authenticated_session(self):
+        if self.against_staging:
+            session_key = create_session_on_server(self.server_host, 
+                    self.email)
+        else:
+            session_key = create_pre_authenticated_session(self.email)
+        # to set a cookie, we need to visit the domain
+        # 404 loads fastest
+        self.browser.get(self.server_url + "/404_no_such_page/")
+        self.browser.add_cookie(dict(
+            name=settings.SESSION_COOKIE_NAME,
+            value=session_key,
+            path="/"))
+

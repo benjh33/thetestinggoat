@@ -21,11 +21,9 @@ class LoginTest(FunctionalTest):
         self.browser.find_element_by_id(
                 'authentication_email',
             ).send_keys(self.email)
-        # finding that smaller window may show a mobile or desktop button.
-        # desktop version has two buttons, so just looking for button tag no is no good
         try:
             element = self.browser.find_element_by_css_selector('.isDesktop.isStart')
-        except NoSuchElementException as e:
+        except NoSuchElementException:
             try:
                 element = self.browser.find_element_by_css_selector('.continue')
                 print('found .continue')
