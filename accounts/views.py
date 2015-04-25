@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
 
 
@@ -11,5 +11,6 @@ def persona_login(request):
         login(request, user)
     return HttpResponse('OK')
 
-
+def persona_logout(request):
+    request.POST['assertion'] = None
 
