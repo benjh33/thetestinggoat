@@ -8,6 +8,7 @@ import unittest
 import time
 
 from .base import FunctionalTest
+from .home_and_list_pages import HomePage
 from lists.forms import EMPTY_ITEM_ERROR, DUPLICATE_ITEM_ERROR
 
 class ItemValidationTest(FunctionalTest):
@@ -15,7 +16,7 @@ class ItemValidationTest(FunctionalTest):
     def test_cannot_submit_empty_list_item(self):
 
         # Edith tries to enter an empty item
-        self.load_slow_browser()
+        self.load_page()
         self.get_item_input_box().send_keys('\n')
 
         # this should cause a problem
@@ -39,7 +40,7 @@ class ItemValidationTest(FunctionalTest):
 
     def test_cannot_add_duplicate_items(self):
         # Edith goes to the homepage and starts a list
-        self.load_slow_browser()
+        self.load_page()
         self.get_item_input_box().send_keys('Buy wellies\n')
         self.check_for_row_in_list_table('1: Buy wellies')
 
@@ -53,7 +54,7 @@ class ItemValidationTest(FunctionalTest):
 
     def test_error_messages_are_cleared_on_input(self):
         # Edith enters a blank item
-        self.load_slow_browser()
+        self.load_page()
         self.get_item_input_box().send_keys('\n')
 
         # Error pops up as expected

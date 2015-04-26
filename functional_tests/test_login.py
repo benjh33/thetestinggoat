@@ -13,7 +13,7 @@ class LoginTest(FunctionalTest):
         print('testing login with fake user from "personatesuser.org/email"')
         print(self.email, self.password)
 
-        self.load_slow_browser()
+        self.load_page()
         self.browser.find_element_by_id('id_login').click()
 
         self.switch_to_new_window('Mozilla Persona')

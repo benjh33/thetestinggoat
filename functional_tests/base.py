@@ -170,13 +170,13 @@ class FunctionalTest(StaticLiveServerTestCase):
         self.wait_for(lambda: self.assertIsNotNone(session_key))
         # to set a cookie, we need to visit the domain
         # 404 loads fastest
-        self.load_slow_browser("/404_no_such_page/")
+        self.load_page("/404_no_such_page/")
         self.browser.add_cookie(dict(
             name=settings.SESSION_COOKIE_NAME,
             value=session_key,
             path="/"))
 
-    def load_slow_browser(self, path=''):
+    def load_page(self, path=''):
         try:
             self.load_tries += 1
             self.browser.get(self.server_url + path)
@@ -184,7 +184,7 @@ class FunctionalTest(StaticLiveServerTestCase):
                 lambda x: self.browser.current_url != 'about:blank')
         finally:
             if self.load_tries < 5 and self.browser.current_url=='about:blank':
-                self.load_slow_browser(path)
+                self.load_page(path)
             elif self.browser.current_url == 'about:blank':
                 self.fail("could not load page")
             self.load_tries = 0 

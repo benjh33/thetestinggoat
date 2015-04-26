@@ -8,7 +8,7 @@ class MyListsTest(FunctionalTest):
         # Edith is a logged in user
         self.create_pre_authenticated_session()
 
-        self.load_slow_browser()
+        self.load_page()
         self.get_item_input_box().send_keys("Reticulate splines\n")
         self.get_item_input_box().send_keys("Imanentize eschaton\n")
         first_list_url = self.browser.current_url
@@ -23,7 +23,7 @@ class MyListsTest(FunctionalTest):
                 )
 
         # she decides to start another list, just to see
-        self.load_slow_browser()
+        self.load_page()
         self.get_item_input_box().send_keys('Click cows\n')
         second_list_url = self.browser.current_url
 
